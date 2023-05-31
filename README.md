@@ -4,5 +4,5 @@ this simple script will look into your game files and extract your owned cards, 
 
 ![alt text](image_grid.png)
 
-there is no option to run it, just call the python script.
+there is no extra option to run it, just call the python script.
 Enjoy :)
