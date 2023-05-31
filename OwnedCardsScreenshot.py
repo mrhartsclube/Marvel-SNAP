@@ -17,9 +17,13 @@ except ImportError:
     subprocess.check_call(["pip", "install", "pillow"])
     from PIL import Image
 
+padding_rows = 18
+padding_columns = -23
+new_size = 210                  # In pixels
+num_columns = 10                # Number of columns for final grid
+card_width = new_size + padding_columns
+card_height = new_size + padding_rows
 
-card_width = 210    # In pixels
-num_columns = 10    # Number of columns for final grid
 json_path = ""
 
 # Search for the card collection file
@@ -72,11 +76,11 @@ for card in valid_cards:
 num_rows = (len(sorted_cards) + num_columns - 1) // num_columns
 
 # Calculate the grid size
-grid_width = num_columns * card_width
-grid_height = num_rows * card_width
+grid_width = num_columns * card_width + padding_rows
+grid_height = num_rows * card_height - padding_columns
 
 # Create a blank grid image with the desired size and background color
-background_color = "#13171b"
+background_color = "#000000"
 grid_image = Image.new("RGB", (grid_width, grid_height), background_color)
 
 # Resize and paste the images onto the grid
@@ -95,12 +99,12 @@ for i, card in enumerate(sorted_cards):
         img = Image.open(io.BytesIO(image_bytes))
         
         # Resize the image
-        img = img.resize((card_width, card_width),Image.Resampling.LANCZOS)
+        img = img.resize((210, 210),Image.Resampling.LANCZOS)
 
         # Calculate the position to paste the image on the grid
         column = i % num_columns
         row = i // num_columns
-        position = (column * card_width, row * card_width)
+        position = (column * card_width, row * card_height + padding_rows)
 
         # Paste the image onto the grid
         grid_image.paste(img, position)
